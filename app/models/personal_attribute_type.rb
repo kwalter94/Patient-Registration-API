@@ -1,0 +1,2 @@
+class PersonalAttributeType < ApplicationRecord
+end
