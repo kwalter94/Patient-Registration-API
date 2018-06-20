@@ -21,6 +21,12 @@ class UserTest < ActiveSupport::TestCase
     assert new_user.save
   end
 
+  test "Should encrypt password on set_password" do
+    user = new_user
+    user.set_password 'foobar'
+    assert user.password != nil && user.password != 'foobar'
+  end
+
   # Create a new user in memory.
   #
   # By default this method creates a user with all fields set.
@@ -45,7 +51,13 @@ class UserTest < ActiveSupport::TestCase
           user.roles << roles(:clerk)
       end
     end
-  
+
     user
+  end
+
+  test "new uui created" do
+    user = new_user
+    user.save
+    assert user.uuid != nil
   end
 end
