@@ -18,12 +18,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "Should be able to create user with valid data" do
-    user = new_user
-    user_saved = user.save
-    puts user.errors.messages
-    assert user_saved
+    assert new_user.save
   end
 
+  # Create a new user in memory.
+  #
+  # By default this method creates a user with all fields set.
+  # Specifying fields in parameter `without` forces creation of
+  # a user with those fields not set.
   def new_user(without=[])
     user = User.new
 
