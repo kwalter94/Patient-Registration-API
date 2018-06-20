@@ -1,6 +1,6 @@
 class Person < ApplicationRecord
     has_one :patient
-    has_one :person_name
+    has_one :person
     has_many :personal_attributes
 
     # NOTE: Cases of people who do not know their date of birth

@@ -1,4 +1,4 @@
 class Patient < ApplicationRecord
-    belongs_to :person
-    validates :person_name, presence: true
+    belongs_to :person, :required => false
+    validates :person, presence: true
 end
