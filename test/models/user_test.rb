@@ -18,14 +18,17 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "Should be able to create user with valid data" do
-    assert new_user.save
+    user = new_user
+    user_saved = user.save
+    puts user.errors.messages
+    assert user_saved
   end
 
   def new_user(without=[])
     user = User.new
 
-    [:username, :password, :active, :person, :roles].each do |field|
-      next if without.find field # Skip all fields in without
+    for field in [:username, :password, :active, :person, :roles]
+      next if without.include? field  # Skip all fields in without
 
       case field
         when :username then
@@ -35,12 +38,12 @@ class UserTest < ActiveSupport::TestCase
         when :active then
           user.active = true
         when :person then
-          user.person = people(:martin)
+          user.person = Person.new :gender => 'male'
         when :roles then
           user.roles << roles(:clerk)
       end
     end
-
+  
     user
   end
 end
