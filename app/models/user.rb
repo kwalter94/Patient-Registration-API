@@ -1,7 +1,5 @@
 class User < ApplicationRecord
-    has_many :roles, :through => 'user_roles'
+    has_and_belongs_to_many :roles
     belongs_to :person
-    validates :username, presence: true
-    validates :password, presence: true
-    validates :active, presence: true
+    validates_presence_of :username, :password, :roles
 end
