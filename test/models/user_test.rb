@@ -21,17 +21,31 @@ class UserTest < ActiveSupport::TestCase
     assert new_user.save
   end
 
+  # Create a new user in memory.
+  #
+  # By default this method creates a user with all fields set.
+  # Specifying fields in parameter `without` forces creation of
+  # a user with those fields not set.
   def new_user(without=[])
-    user_data = {
-      :username => 'Foobar',
-      :password => 'foobar', # This ought to be encrypted in the real world
-      :active => 'active',
-      :person => people(:kwalter),
-      :roles => [roles(:clerk)]
-    }
+    user = User.new
 
-    without.each {|field| user_data[field] = field == :roles and [] or nil}  # Unset all excluded fields
+    for field in [:username, :password, :active, :person, :roles]
+      next if without.include? field  # Skip all fields in without
 
-    User.new(user_data)
+      case field
+        when :username then
+          user.username = 'Foobar'
+        when :password then
+          user.password = 'foobar'
+        when :active then
+          user.active = true
+        when :person then
+          user.person = Person.new :gender => 'male'
+        when :roles then
+          user.roles << roles(:clerk)
+      end
+    end
+  
+    user
   end
 end
