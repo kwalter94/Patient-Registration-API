@@ -22,16 +22,25 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def new_user(without=[])
-    user_data = {
-      :username => 'Foobar',
-      :password => 'foobar', # This ought to be encrypted in the real world
-      :active => 'active',
-      :person => people(:kwalter),
-      :roles => [roles(:clerk)]
-    }
+    user = User.new
 
-    without.each {|field| user_data[field] = field == :roles and [] or nil}  # Unset all excluded fields
+    [:username, :password, :active, :person, :roles].each do |field|
+      next if without.find field # Skip all fields in without
 
-    User.new(user_data)
+      case field
+        when :username then
+          user.username = 'Foobar'
+        when :password then
+          user.password = 'foobar'
+        when :active then
+          user.active = true
+        when :person then
+          user.person = people(:martin)
+        when :roles then
+          user.roles << roles(:clerk)
+      end
+    end
+
+    user
   end
 end
