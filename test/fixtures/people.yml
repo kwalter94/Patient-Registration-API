@@ -4,12 +4,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-martin:
-  id: 1
+barfoo:
+  id: 0
   birthdate: 01-01-2000
   gender: male
 
-kwalter:
-  id: 0
+foobar:
+  id: 1
   birthdate: 01-01-2000
   gender: male

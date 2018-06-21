@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PatientsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @patient = patients(:martin)
+    @patient = patients(:barfoo)
   end
 
   test "should get index" do

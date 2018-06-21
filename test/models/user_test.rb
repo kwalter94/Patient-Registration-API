@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "Should not create user without role" do
-    assert_not new_user(without = [:roles]).save
+    assert_not new_user(without = [:role]).save
   end
 
   test "Should be able to create user with valid data" do
@@ -34,9 +34,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user is authenticated" do
-    user = new_user
+    user = users(:foobar)
     user.set_password 'foobar'
     user.save
+    puts user.errors.full_messages
     assert User.authenticate(user.username, 'foobar').username == user.username
   end
 
@@ -48,7 +49,7 @@ class UserTest < ActiveSupport::TestCase
   def new_user(without=[])
     user = User.new
 
-    for field in [:username, :password, :active, :person, :roles]
+    for field in [:username, :password, :active, :person, :role]
       next if without.include? field  # Skip all fields in without
 
       case field
@@ -60,8 +61,8 @@ class UserTest < ActiveSupport::TestCase
           user.active = true
         when :person then
           user.person = Person.new :gender => 'male'
-        when :roles then
-          user.roles << roles(:clerk)
+        when :role then
+          user.role = roles(:clerk)
       end
     end
 

@@ -5,10 +5,10 @@
 # below each fixture, per the syntax in the comments below
 #
 
-kwalter:
+foobar:
   id: 0
-  person: kwalter
+  person: foobar
 
-martin:
+barfoo:
   id: 1
-  person: martin
+  person: barfoo

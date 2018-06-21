@@ -1,63 +1,106 @@
+require 'utils/string_utils'
+
 class UsersController < ApplicationController
   DEFAULT_ROLENAME = 'clerk'
 
   def index
+    render json: User.all
   end
 
   def show
+    user = User.find(params[:id])
+
+    if user.nil?
+      return render json: {'errors' => ['Not found']}, status: 404
+    end
+
+    render json: user
   end
 
   def create
-    data = JSON.parse(request.body.read)
-    validate_user_data data
-
-    user = User.new
-    user.username = data['username']
-    user.set_password data['password']
-    user.roles << Role.find_by_rolename(data['role'])
-    user.person = Person.new(
-      birthdate: data['birthdate'],
-      gender: data['gender'],
-      person_name: PersonName.new({
-        firstname: data['first_name'],
-        lastname: data['last_name']
-      })
-    )
+    data = validate_user_data JSON.parse(request.body.read)
+    user = create_user data
 
     if !user.save
-      return render :json => {'error' => 'Bad input', 'data' => user.errors.full_messages},
-                    :status => 400
+      return render json: {'errors' => user.errors.full_messages}, status: 400
     end
 
-    render :json => data
-  rescue JSON::ParserError => e
-    render :json => {'error' => 'Bad input'}, :status => 400
+    render json: user, status: 201
+  rescue JSON::ParserError
+    render json: {'errors' => ['Bad input']}, status: 400
   rescue ArgumentError => e
-    render :json => {'error' => 'Bad input', 'message' => e.to_s},
-           :status => 400
+    render json: {'errors' => [e.to_s]}, status: 400
   end
 
   def update
-  end
+    user = User.find(params[:id])
 
+    if user.nil?
+      return render json: {'errors' => ['Not found']}, status: 404
+    end
+
+    data = validate_user_data JSON.parse(request.body.read)
+    user.update data
+
+    if !user.save
+      return render json: {'errors' => user.errors.full_messages}, status: 400
+    end
+
+    render json: user, status: 204
+  rescue JSON::ParserError
+    render json: {'errors' => ['Bad input']}, status: 400
+  rescue ArgumentError => e
+    render json: {'errors' => [e.to_s]}
+  end
 
   def destroy
-
   end
 
-  def user_params
-    # params.require(:user, :person).permit(:name, :password, )
-  end
+  private
+    # List of fields required for creating a full user (see method full_new_user)
+    USER_DATA_FIELDS = %w{
+      username password role firstname lastname birthdate gender
+    }
 
-  def validate_user_data(data)
-    logger.debug(data)
-    %w{username password role first_name last_name birthdate gender}.each do |field|
-      raise ArgumentError.new("#{field} required") if is_empty_string?(data[field])
+    DEFAULT_USER_ROLE = 'clerk'
+
+    # Validate data used in creating a full user.
+    #
+    # Returns - validated user data.
+    #
+    # NOTE: Method converts roles from string to Role objects upon validation.
+    def validate_user_data(user_data)
+      USER_DATA_FIELDS.inject({}) do |validated_user_data, field|
+        value = user_data[field]
+
+        if field == 'role'
+          rolename = value or DEFAULT_USER_ROLE
+          value = Role.find_by_rolename(rolename)
+          raise ArgumentError.new("Invalid role: #{value}") if value.nil?
+        elsif StringUtils::is_empty_string?(value)
+          raise ArgumentError.new("#{field} required")
+        end
+
+        validated_user_data[field] = value
+        validated_user_data
+      end
     end
-  end
 
-  def is_empty_string?(str)
-    logger.debug("Validating #{str}")
-    str == nil or str.empty?
-  end
+    # Creates a user together with all related sub models.
+    def create_user(data)
+      user = User.new(
+        username: data['username'],
+        role: data['role'],
+        person: Person.new(
+          birthdate: data['birthdate'],
+          gender: data['gender'],
+          person_name: PersonName.new({
+            firstname: data['first_name'],
+            lastname: data['last_name']
+          })
+        )
+      )
+      user.set_password data['password']
+      user
+    end
 end

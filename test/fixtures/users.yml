@@ -4,25 +4,23 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-kwalter:
+foobar:
   id: 0
-  username: kwalter
+  username: foobar
   password: foobar
   active: true
-  person: kwalter
+  person: foobar
   created_at: '2018-06-19 12:27:55'
   updated_at: '2018-06-19 12:27:55'
-  # roles: 
-  #   - clerk
+  role: clerk
 
-martin:
+barfoo:
   id: 1
-  username: martin
+  username: barfoo
   password: foobar
   active: true
-  person: martin
+  person: barfoo
   created_at: '2018-06-19 12:27:55'
   updated_at: '2018-06-19 12:27:55'
-  # roles:
-  #   - manager
+  role: manager
 

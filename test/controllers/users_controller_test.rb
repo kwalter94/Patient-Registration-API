@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:martin)
+    @user = users(:foobar)
   end
 
   test "should get index" do
@@ -12,7 +12,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference('User.count') do
-      post users_url, params: { user: {  } }, as: :json
+      post users_url, params: {
+        "username" => "foobar",
+        "password" => "foobar",
+        "role" => "clerk",
+        "firstname" => "firstname",
+        "lastname" => "lastname",
+        "birthdate" => "2000-01-01",
+        "gender" => "male"
+      }, as: :json
     end
 
     assert_response 201
