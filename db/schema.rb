@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_20_112444) do
+ActiveRecord::Schema.define(version: 2018_06_21_073912) do
 
   create_table "patients", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "person_id"
@@ -43,6 +43,19 @@ ActiveRecord::Schema.define(version: 2018_06_20_112444) do
     t.string "value"
     t.integer "person_id"
     t.integer "personal_attribute_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "privileges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "role_privileges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "privilege_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
