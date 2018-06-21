@@ -27,6 +27,19 @@ class UserTest < ActiveSupport::TestCase
     assert user.password != nil && user.password != 'foobar'
   end
 
+  test "new uui created" do
+    user = new_user
+    user.save
+    assert user.uuid != nil
+  end
+
+  test "user is authenticated" do
+    user = new_user
+    user.set_password 'foobar'
+    user.save
+    assert User.authenticate(user.username, 'foobar').username == user.username
+  end
+
   # Create a new user in memory.
   #
   # By default this method creates a user with all fields set.
@@ -53,11 +66,5 @@ class UserTest < ActiveSupport::TestCase
     end
 
     user
-  end
-
-  test "new uui created" do
-    user = new_user
-    user.save
-    assert user.uuid != nil
   end
 end
