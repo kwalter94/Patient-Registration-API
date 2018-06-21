@@ -1,4 +1,6 @@
 class Patient < ApplicationRecord
-    belongs_to :person, :required => false
+    SERIALIZE_OPTIONS = {}
+
+    belongs_to :person
     validates :person, presence: true
 end

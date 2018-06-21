@@ -1,6 +1,13 @@
 class Person < ApplicationRecord
+    SERIALIZE_OPTIONS = {
+        include: {
+            person_name: PersonName::SERIALIZE_OPTIONS,
+            patient: Patient::SERIALIZE_OPTIONS,
+            personal_attributes: PersonalAttribute::SERIALIZE_OPTIONS
+        }
+    }
+
     has_one :patient
-    has_one :person
     has_one :person_name
     has_many :personal_attributes
 
@@ -9,4 +16,8 @@ class Person < ApplicationRecord
     # date of birth below...
     validates :birthdate, presence: false
     validates :gender, presence: true
+
+    def as_json(options = {})
+        super(options.merge(SERIALIZE_OPTIONS))
+    end
 end
