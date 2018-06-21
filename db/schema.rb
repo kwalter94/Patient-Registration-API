@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2018_06_21_074224) do
     t.datetime "updated_at", null: false
     t.string "salt"
     t.string "uuid"
+    t.integer "role_id"
   end
 
 end
