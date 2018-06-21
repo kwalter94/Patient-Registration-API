@@ -43,6 +43,11 @@ class PatientsController < ApplicationController
 
 
   def destroy
+    data = JSON.parse(request.body.read)
+    patient = Patient.find(
+      id: data['id']
+    )
+    # patient.destroy
   end
 
   def user_params
@@ -51,7 +56,7 @@ class PatientsController < ApplicationController
 
   def validate_user_data(data)
     logger.debug(data)
-    %w{name first_name last_name birthdate gender}.each do |field|
+    %w{id }.each do |field|
       raise ArgumentError.new("#{field} required") if is_empty_string?(data[field])
     end
   end
