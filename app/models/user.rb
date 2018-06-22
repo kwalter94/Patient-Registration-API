@@ -37,16 +37,14 @@ class User < ApplicationRecord
 
   # Returns an encrypted `password` using the given salt
   def encrypt(password, salt)
-    puts "Encrypting password: #{password} - #{salt}"
     Digest::SHA1.hexdigest(password + salt)
   end
 
   # Validate password against user's password
   #
   # Returns true on success else false
-  def validate_password?(password)
-    puts "Validating password: #{password} - #{self.password} - #{self.salt}"
-    encrypt(password, salt) == password
+  def validate_password?(plain_password)
+    encrypt(plain_password, salt) == self.password
   end
 
   private

@@ -37,7 +37,6 @@ class UserTest < ActiveSupport::TestCase
     user = users(:foobar)
     user.set_password 'foobar'
     user.save
-    puts user.errors.full_messages
     assert User.authenticate(user.username, 'foobar').username == user.username
   end
 
