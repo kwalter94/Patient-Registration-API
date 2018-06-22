@@ -47,14 +47,17 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    role = Role.find params[:id]
+    role = Role.find(params[:id])
 
     if role.nil?
       return render json: {'errors' => ['Not found']}, status: 404
     end
+    
+    unless role.destroy
+      return render json: {'errors' => role.errors.full_messages}, status: 400
+    end
 
-    # TODO: Mark as deleted...
-    render json: {'role': role.errors.full_messages}, status: 400
+    render json: role, status: 204
   rescue JSON::ParserError => e
     render json: {'errors' => 'Bad input'}, status: 400
   end

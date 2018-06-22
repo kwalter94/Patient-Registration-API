@@ -41,11 +41,20 @@ class PatientsController < ApplicationController
   def update
   end
 
-
   def destroy
     patient = Patient.find(params[:id])
-    patient.destroy
-    render json: {'ok' => 'Patient deleted'}, status: 204
+
+    if patient.nil?
+      return render json: {'errors' => ['Not found']}, status: 404
+    end
+    
+    unless patient.destroy
+      return render json: {'errors' => patient.errors.full_messages}, status: 400
+    end
+
+    render json: patient, status: 204
+  rescue JSON::ParserError => e
+    render json: {'errors' => 'Bad input'}, status: 400
   end
 
   def user_params
