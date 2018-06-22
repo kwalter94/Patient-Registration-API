@@ -43,11 +43,9 @@ class PatientsController < ApplicationController
 
 
   def destroy
-    data = JSON.parse(request.body.read)
-    patient = Patient.find(
-      id: data['id']
-    )
-    # patient.destroy
+    patient = Patient.find(params[:id])
+    patient.destroy
+    render json: {'ok' => 'Patient deleted'}, status: 204
   end
 
   def user_params
