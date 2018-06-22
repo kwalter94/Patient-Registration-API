@@ -15,3 +15,15 @@ foobar:
   person: foobar
   firstname: Foobar
   lastname: Fooson
+
+rms:
+  id: 2
+  person: rms
+  firstname: rms
+  lastname: rms
+
+dmr:
+  id: 3
+  person: dmr
+  firstname: dmr
+  lastname: dmr

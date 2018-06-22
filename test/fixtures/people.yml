@@ -13,3 +13,13 @@ foobar:
   id: 1
   birthdate: 01-01-2000
   gender: male
+
+rms:
+  id: 2
+  birthdate: 01-01-1990
+  gender: female
+
+dmr:
+  id: 3
+  birthdate: 01-01-1990
+  gender: male
