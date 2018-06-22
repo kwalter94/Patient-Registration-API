@@ -12,7 +12,7 @@ class PrivilegesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create privilege" do
     assert_difference('Privilege.count') do
-      post privileges_url, params: { privilege: {  } }, as: :json
+      post privileges_url, params: {name: 'add'}, as: :json
     end
 
     assert_response 201
@@ -29,8 +29,8 @@ class PrivilegesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy privilege" do
-    expected_increase = 1
-    assert_difference('Privilege.count(:deleted_at)', expected_increase) do
+    expected_increase = -1
+    assert_difference('Privilege.count', expected_increase) do
       delete privilege_url(@privilege), as: :json
     end
 

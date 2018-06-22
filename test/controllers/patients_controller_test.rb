@@ -29,8 +29,8 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy patient" do
-    expected_increase = 1
-    assert_difference('Patient.count(:deleted_at)', expected_increase) do
+    expected_increase = -1
+    assert_difference('Patient.count', expected_increase) do
       delete patient_url(@patient), as: :json
     end
 
