@@ -7,8 +7,8 @@
 
 foobar:
   id: 0
-  person: foobar
+  person_id: 1
 
 barfoo:
   id: 1
-  person: barfoo
+  person_id: 0
