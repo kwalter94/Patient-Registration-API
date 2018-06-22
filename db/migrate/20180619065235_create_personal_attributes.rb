@@ -4,6 +4,7 @@ class CreatePersonalAttributes < ActiveRecord::Migration[5.2]
       t.string :value
       t.integer :person_id
       t.integer :personal_attribute_type_id
+      t.datetime :deleted_at, default: nil
       t.timestamps
     end
   end

@@ -54,7 +54,7 @@ class PatientsController < ApplicationController
 
   def validate_user_data(data)
     logger.debug(data)
-    %w{id }.each do |field|
+    %w{firstname lastname birthdate gender }.each do |field|
       raise ArgumentError.new("#{field} required") if is_empty_string?(data[field])
     end
   end
