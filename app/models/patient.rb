@@ -5,11 +5,11 @@ class Patient < ApplicationRecord
         }
     }
 
-    belongs_to :person, optional: true
+    belongs_to :person
     validates :person, presence: true
 
     def destroy
-        person.destroy source = :patient
+        person.destroy :patient
         super() # destroy self
     end
 end

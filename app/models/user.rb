@@ -11,7 +11,7 @@ class User < ApplicationRecord
     }
   }
 
-  belongs_to :person, optional: true
+  belongs_to :person
   belongs_to :role
   validates_presence_of :username, :password, :role
 
@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def destroy
-    person.destroy source = :user
+    person.destroy :user
     super()
   end
 

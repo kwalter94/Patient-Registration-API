@@ -4,7 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   # Soft delete record
   def destroy
-    deleted_at = Time.now
+    self.deleted_at = Time.now
     save
   end
 end
