@@ -11,7 +11,7 @@ class User < ApplicationRecord
     }
   }
 
-  belongs_to :person
+  belongs_to :person, optional: true
   belongs_to :role
   validates_presence_of :username, :password, :role
 
@@ -28,6 +28,11 @@ class User < ApplicationRecord
 
   def as_json(options = {})
     super(options.merge(SERIALIZE_OPTIONS))
+  end
+
+  def destroy
+    person.destroy source = :user
+    super()
   end
 
   def set_password(plain_password)
