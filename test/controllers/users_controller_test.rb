@@ -37,7 +37,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy user" do
-    assert_difference('User.count', -1) do
+    expected_increase = 1
+    assert_difference('User.count(:deleted_at)', expected_increase) do
       delete user_url(@user), as: :json
     end
 

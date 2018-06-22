@@ -29,7 +29,8 @@ class PrivilegesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy privilege" do
-    assert_difference('Privilege.count', -1) do
+    expected_increase = 1
+    assert_difference('Privilege.count(:deleted_at)', expected_increase) do
       delete privilege_url(@privilege), as: :json
     end
 

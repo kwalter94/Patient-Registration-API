@@ -32,7 +32,8 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy role" do
-    assert_difference('Role.count', -1) do
+    expected_increase = 1
+    assert_difference('Role.count(deleted_at)', expected_increase) do
       delete role_url(@role), as: :json
     end
 
