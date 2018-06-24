@@ -25,7 +25,7 @@ class PrivilegesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update privilege" do
     patch privilege_url(@privilege), params: { privilege: {  } }, as: :json
-    assert_response 200
+    assert_response 204
   end
 
   test "should destroy privilege" do
