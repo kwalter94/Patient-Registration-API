@@ -28,7 +28,7 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
       'name' => 'clerk',
       'privileges' => ['add']
     }, as: :json
-    assert_response 200
+    assert_response 204
   end
 
   test "should destroy role" do
