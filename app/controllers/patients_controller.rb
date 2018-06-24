@@ -39,22 +39,33 @@ class PatientsController < ApplicationController
   end
 
   def update
+
+    patient = Patient.find(params[:id])
+    patient.deleted_at = Time.now
+    if   patient.save
+      render json: patient
+    else
+      puts 'error updating record'
+    end
+
   end
 
 
   def destroy
     patient = Patient.find(params[:id])
-    patient.destroy
-    render json: {'ok' => 'Patient deleted'}, status: 204
+    patient.deleted_at = Time.now
+  if   patient.save
+    render json: patient
+  else
+    puts 'error updating record'
   end
 
-  def user_params
-    # params.require(:user, :person).permit(:name, :password, )
   end
+
 
   def validate_user_data(data)
     logger.debug(data)
-    %w{firstname lastname birthdate gender }.each do |field|
+    %w{firstname lastname birthdate gender}.each do |field|
       raise ArgumentError.new("#{field} required") if is_empty_string?(data[field])
     end
   end

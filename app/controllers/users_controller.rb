@@ -3,6 +3,15 @@ require 'utils/string_utils'
 class UsersController < ApplicationController
   DEFAULT_ROLENAME = 'clerk'
 
+  def user_session
+
+    username = params[:username]
+    password = params[:password]
+   user = User.authenticate(username, password)
+
+
+ end
+
   def index
     render json: User.all
   end
