@@ -81,3 +81,4 @@ class PatientsController < ApplicationController
     str == nil or str.empty?
   end
 end
+end
