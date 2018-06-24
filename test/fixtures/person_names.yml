@@ -27,3 +27,9 @@ no_patient_person:
   person_id: 3
   firstname: Random
   lastname: Geek
+
+unattached_person:
+  id: 4
+  person_id: 4
+  firstname: lonely
+  lastname: hacker

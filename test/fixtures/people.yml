@@ -23,3 +23,7 @@ no_patient_person:
   id: 3
   birthdate: 01-01-1990
   gender: male
+
+unattached_person:
+  id: 4
+  gender: female

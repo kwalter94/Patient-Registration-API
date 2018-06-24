@@ -6,10 +6,18 @@
 #
 foobar_address:
   id: 0
-  # personal_attributes_type: address
+  person_id: 0
+  personal_attribute_type_id: 0
   value: 121321414132
 
 foobar_email:
   id: 1
-  # personal_attributes_type: email
+  person_id: 1
+  personal_attribute_type_id: 1
   value: 'foobar@foobar.com'
+
+unattached_person_id_email:
+  id: 2
+  person_id: 4
+  personal_attribute_type_id: 1
+  value: 'lonelyhacker@cathedral.com'
