@@ -50,20 +50,14 @@ class PatientsController < ApplicationController
 
   end
 
+
   def destroy
     patient = Patient.find(params[:id])
-
-    if patient.nil?
-      return render json: {'errors' => ['Not found']}, status: 404
-    end
-
-    unless patient.destroy
-      return render json: {'errors' => patient.errors.full_messages}, status: 400
-    end
-
-    render json: patient, status: 204
-  rescue JSON::ParserError => e
-    render json: {'errors' => 'Bad input'}, status: 400
+    patient.deleted_at = Time.now
+  if   patient.save
+    render json: patient
+  else
+    puts 'error updating record'
   end
 
   end
@@ -80,5 +74,4 @@ class PatientsController < ApplicationController
     logger.debug("Validating #{str}")
     str == nil or str.empty?
   end
-end
 end
