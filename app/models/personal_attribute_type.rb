@@ -1,6 +1,6 @@
 class PersonalAttributeType < ApplicationRecord
     SERIALIZE_OPTIONS = {}
 
-    belongs_to :personal_attribute
+    has_many :personal_attribute
     validates :name, presence: true
 end
