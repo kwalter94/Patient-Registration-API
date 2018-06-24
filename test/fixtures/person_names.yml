@@ -16,14 +16,14 @@ foobar:
   firstname: Foobar
   lastname: Fooson
 
-rms:
+no_user_person:
   id: 2
-  person: rms
-  firstname: rms
-  lastname: rms
+  person_id: 2
+  firstname: Random
+  lastname: Hacker
 
-dmr:
+no_patient_person:
   id: 3
-  person: dmr
-  firstname: dmr
-  lastname: dmr
+  person_id: 3
+  firstname: Random
+  lastname: Geek

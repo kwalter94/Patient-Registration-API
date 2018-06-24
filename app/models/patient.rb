@@ -9,7 +9,7 @@ class Patient < ApplicationRecord
     validates :person, presence: true
 
     def destroy
-        person.destroy :patient
+        person.destroy ignore = :patient
         super() # destroy self
     end
 end

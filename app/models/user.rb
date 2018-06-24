@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def destroy
-    person.destroy :user
+    person.destroy ignore = :user
     super()
   end
 

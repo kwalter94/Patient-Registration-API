@@ -1,48 +1,37 @@
 class Person < ApplicationRecord
-	SERIALIZE_OPTIONS = {
-		include: {
-			person_name: PersonName::SERIALIZE_OPTIONS,
-			personal_attributes: PersonalAttribute::SERIALIZE_OPTIONS
-		}
-	}
+  SERIALIZE_OPTIONS = {
+    include: {
+      person_name: PersonName::SERIALIZE_OPTIONS,
+      personal_attributes: PersonalAttribute::SERIALIZE_OPTIONS
+    }
+  }
 
   has_one :user
-	has_one :patient
-	has_one :person_name
-	has_many :personal_attributes
+  has_one :patient
+  has_one :person_name
+  has_many :personal_attributes
 
-	# NOTE: Cases of people who do not know their date of birth
-	# are encountered sometimes hence allowing Persons without
-	# date of birth below...
-	validates :birthdate, presence: false
-	validates :gender, presence: true
+  # NOTE: Cases of people who do not know their date of birth
+  # are encountered sometimes hence allowing Persons without
+  # date of birth below...
+  validates :birthdate, presence: false
+  validates_presence_of :gender, :person_name
 
-	def as_json(options = {})
-		super(options.merge(SERIALIZE_OPTIONS))
-	end
+  def as_json(options = {})
+    super(options.merge(SERIALIZE_OPTIONS))
+  end
 
-	# Destroy self if there is no patient or user attached.
-	#
-	# Parameters:
-	#   source - This provides a hint on how the destroy
-	#            should be executed.
-	#
-	#            If source is :patient then destroy executes
-	#            only if there is no :user attached and if
-	#            source is :user then destroy executes only if
-	#            there is no :patient attached.
-	def destroy(source = nil)
-		case source
-		when :patient
-			return false unless user.nil?
-		when :user
-			return false unless patient.nil?
-    else
-			return false
-    end
-
-    person_name.destroy unless person_name.nil?
-    personal_attributes.destroy
-		super() # Destroy self
-	end
+  # Destroy self if there is no patient and/or user attached.
+  #
+  # Parameters:
+  #   ignore - Valid values are :patient or :user. Model specified here
+  #            is not checked if its attached.
+  #
+  # Returns: true if successful else false
+  def destroy(ignore = nil)
+    okay_to_destroy = (ignore == :patient && user.nil?) \
+                      || (ignore == :user && patient.nil?) \
+                      || (ignore.nil? && user.nil? && patient.nil?)
+    okay_to_destroy ? super() : false
+  end
 end
