@@ -1,77 +1,97 @@
 class PatientsController < ApplicationController
-  # DEFAULT_ROLENAME = 'clerk'
-
   def index
-
-        patient = Patient.new
-        patient = Patient.all
-        render json: patient
+    render json: Patient.all
   end
 
   def show
+    patient = Patient.find params[:id]
+    if patient.nil?
+      render json: {'errors' => ['Person ##{params[:id] not found']}, status: 404
+    else
+      render json: patient
+    end
   end
 
   def create
-    data = JSON.parse(request.body.read)
-    validate_user_data data
-
-    patient = Patient.new
-    patient.person = Person.new(
-      birthdate: data['birthdate'],
-      gender: data['gender'],
-      person_name: PersonName.new({
-        firstname: data['first_name'],
-        lastname: data['last_name']
-      })
-    )
-
-    if !patient.save
-      return render :json => {'error' => 'Bad input', 'data' => patient.errors.full_messages},
-                    :status => 400
+    patient = process_create_params
+    if patient.save
+      render json: patient, status: 201
+    else
+      render json: {'errors': patient.errors.messages}, status: 400
     end
-
-    render :json => data
   rescue JSON::ParserError => e
-    render :json => {'error' => 'Bad input'}, :status => 400
+    logger.error('Failed to parse JSON: %s', e.to_s)
+    render :json => {'errors' => 'Bad input'}, status: 400
   rescue ArgumentError => e
-    render :json => {'error' => 'Bad input', 'message' => e.to_s},
-           :status => 400
+    render :json => {'errors' => [e.to_s]}, status: 400
   end
 
   def update
-
-    patient = Patient.find(params[:id])
-    patient.deleted_at = Time.now
-    if   patient.save
-      render json: patient
+    patient = process_update_params
+    if patient.nil?
+      errors = ["Patient ##{params[:id]} with given id not found"]
+      render json: {'errors': errors}, status: 400
+    elsif patient.save
+      render json: patient, status: 204
     else
-      puts 'error updating record'
+      render json: {'errors': patient.errors.messages}, status: 400
     end
-
+  rescue JSON::ParserError => e
+    logger.error('Failed to parse JSON: %s', e.to_s)
+    render :json => {'errors' => 'Bad input'}, status: 400
+  rescue ArgumentError => e
+    render :json => {'errors' => [e.to_s]}, status: 400
   end
-
 
   def destroy
-    patient = Patient.find(params[:id])
-    patient.deleted_at = Time.now
-  if   patient.save
-    render json: patient
-  else
-    puts 'error updating record'
-  end
-
-  end
-
-
-  def validate_user_data(data)
-    logger.debug(data)
-    %w{firstname lastname birthdate gender}.each do |field|
-      raise ArgumentError.new("#{field} required") if is_empty_string?(data[field])
+    patient = Patient.find params[:id]
+    if patient.nil?
+      render json: {'errors' => ['Not found']}, status: 404
+    elsif patient.destroy
+      render json: patient, status: 204
+    else
+      render json: {'errors' => patient.errors.messages}, status: 400
     end
+  rescue JSON::ParserError => e
+    render json: {'errors' => ['Bad input']}, status: 400
   end
 
-  def is_empty_string?(str)
-    logger.debug("Validating #{str}")
-    str == nil or str.empty?
-  end
+  private
+    def process_create_params
+      person = get_target_person
+
+      # New patients have to be attached to free people (ie people without another
+      # patient already bound). Doesn't make sense having multiple patients
+      # linked to the same person.
+      raise ArgumentError.new(
+        "Person ##{person.id} already attached to patient ##{person.patient.id}"
+      ) unless person.patient.nil?  
+
+      Patient.new person: person
+    end
+
+    def process_update_params
+      patient = Patient.find params[:id]
+      return nil if patient.nil?
+
+      person = get_target_person
+
+      patient.person = person
+      patient
+    end
+
+    def get_target_person
+      data =  JSON.parse request.body.read
+
+      person_id = data['person_id']
+      if person_id.nil? or !person_id.match? /^\d+$/
+        raise ArgumentError.new 'person_id can not be blank'
+      elsif !person_id.match? /^\d+$/
+        raise ArgumentError.new "person_id ##{person_id} is invalid"
+      end
+
+      person = Person.find person_id.to_i
+      raise ArgumentError.new "Person ##{person_id} not found" if person.nil?
+      person
+    end
 end

@@ -12,7 +12,8 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create patient" do
     assert_difference('Patient.count') do
-      post patients_url, params: { patient: {  } }, as: :json
+      person_id = people(:unattached_person).id.to_s
+      post patients_url, params: { person_id: person_id }, as: :json
     end
 
     assert_response 201
@@ -24,8 +25,9 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update patient" do
-    patch patient_url(@patient), params: { patient: {  } }, as: :json
-    assert_response 200
+    new_person_id = people(:unattached_person).id.to_s
+    patch patient_url(@patient), params: { person_id: new_person_id }, as: :json
+    assert_response 204
   end
 
   test "should destroy patient" do
