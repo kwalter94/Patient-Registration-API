@@ -30,6 +30,11 @@ class User < ApplicationRecord
     super(options.merge(SERIALIZE_OPTIONS))
   end
 
+  def destroy
+    person.destroy :user
+    super()
+  end
+
   def set_password(plain_password)
     self.salt = SecureRandom.base64 SALT_LENGTH if self.salt.nil?
     self.password = encrypt plain_password, self.salt

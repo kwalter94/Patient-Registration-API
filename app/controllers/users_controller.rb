@@ -63,12 +63,25 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    user = User.find(params[:id])
+
+    if user.nil?
+      return render json: {'errors' => ['Not found']}, status: 404
+    end
+    
+    unless user.destroy
+      return render json: {'errors' => user.errors.full_messages}, status: 400
+    end
+
+    render json: user, status: 204
+  rescue JSON::ParserError => e
+    render json: {'errors' => ['Bad input']}, status: 400
   end
 
   private
     # List of fields required for creating a full user (see method full_new_user)
     USER_DATA_FIELDS = %w{
-      username password role firstname lastname birthdate gender
+      username password firstname lastname birthdate gender role
     }
 
     DEFAULT_USER_ROLE = 'clerk'
@@ -85,7 +98,7 @@ class UsersController < ApplicationController
         if field == 'role'
           rolename = value or DEFAULT_USER_ROLE
           value = Role.find_by_rolename(rolename)
-          raise ArgumentError.new("Invalid role: #{value}") if value.nil?
+          raise ArgumentError.new("Invalid role: #{rolename}") if value.nil?
         elsif StringUtils::is_empty_string?(value)
           raise ArgumentError.new("#{field} required")
         end
@@ -99,7 +112,6 @@ class UsersController < ApplicationController
     def create_user(data)
       user = User.new(
         username: data['username'],
-        role: data['role'],
         person: Person.new(
           birthdate: data['birthdate'],
           gender: data['gender'],
@@ -107,7 +119,8 @@ class UsersController < ApplicationController
             firstname: data['first_name'],
             lastname: data['last_name']
           })
-        )
+        ),
+        role: data['role']
       )
       user.set_password data['password']
       user

@@ -12,3 +12,7 @@ foobar:
 barfoo:
   id: 1
   person_id: 0
+
+dmr:
+  id: 2
+  person_id: 3

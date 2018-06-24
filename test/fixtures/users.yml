@@ -23,3 +23,11 @@ barfoo:
   created_at: '2018-06-19 12:27:55'
   updated_at: '2018-06-19 12:27:55'
   role_id: 0
+
+rms:
+  id: 2
+  username: rms
+  password: rms
+  active: true
+  person_id: 2
+  role_id: 0

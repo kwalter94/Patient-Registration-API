@@ -12,7 +12,7 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create role" do
     assert_difference('Role.count') do
-      post roles_url, params: { role: {  } }, as: :json
+      post roles_url, params: {name: 'clerk', privileges: ['add']}, as: :json
     end
 
     assert_response 201
@@ -32,7 +32,8 @@ class RolesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy role" do
-    assert_difference('Role.count', -1) do
+    expected_increase = -1
+    assert_difference('Role.count', expected_increase) do
       delete role_url(@role), as: :json
     end
 
