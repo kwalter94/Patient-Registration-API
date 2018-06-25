@@ -6,12 +6,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get users_url, as: :json
+    get users_url, as: :json, session: {user: @user.id}
     assert_response :success
   end
 
   test "should create user" do
     assert_difference('User.count') do
+      login_as(@user, 'foobar')
       post users_url, params: {
         "person_id" => people(:no_user_person).id.to_s,
         "username" => "foobar",
@@ -39,5 +40,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response 204
+  end
+
+  test "should block access if user not logged in" do
+    get roles_url, as: :json
+    assert_response 403
   end
 end

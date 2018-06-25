@@ -1,7 +1,30 @@
 require 'utils/string_utils'
 
 class UsersController < ApplicationController
-  DEFAULT_ROLENAME = 'clerk'
+  skip_before_action :authenticate, :only => :login
+
+  def login
+    posted_params = get_posted_params(required = ['username', 'password'])
+    username = posted_params['username']
+    password = posted_params['password']
+
+    logger.debug "Attempting to login #{username}"
+    user = User::authenticate username, password
+
+    if user.nil?
+      logger.debug "Login failed for #{username}"
+      render json: {'error' => 'Invalid username or password'}, status: 403
+    else
+      logger.debug "Login successful for #{username}"
+      session[:user] = user.id
+      puts session
+      render json: {}, status: 204
+    end
+  end
+
+  def logout
+    session.delete :user
+  end
 
   def user_session
 
