@@ -2,6 +2,7 @@ require 'test_helper'
 
 class PatientsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    login_as('foobar', 'foobar')
     @patient = patients(:barfoo)
   end
 
