@@ -1,6 +1,9 @@
+require 'securerandom'
 require 'utils/string_utils'
 
 class UsersController < ApplicationController
+  USER_AUTH_TOKEN_LENGTH = 32
+
   skip_before_action :authenticate, :only => :login
 
   def login
@@ -13,17 +16,30 @@ class UsersController < ApplicationController
 
     if user.nil?
       logger.debug "Login failed for #{username}"
-      render json: {'error' => 'Invalid username or password'}, status: 403
-    else
-      logger.debug "Login successful for #{username}"
-      session[:user] = user.id
-      puts session
-      render json: {}, status: 204
+      return render json: {'error' => 'Invalid username or password'}, status: 403
     end
+
+    logger.debug "Generating auth token for user ##{user.id}"
+    auth = UserAuth.create user: user, token: SecureRandom::hex(USER_AUTH_TOKEN_LENGTH)
+
+    logger.debug "Successfully authenticated ##{user.id}"
+    render json: {'message': 'Login successful', 'api-key': "#{auth.id}&#{auth.token}"}
   end
 
   def logout
-    session.delete :user
+    auth_header = request.headers['API_KEY']
+
+    unless auth_header
+      return render json: {message: 'Already logged out'}
+    end
+
+    auth_id, auth_token = auth_header.split '&', 2
+    if auth_id.nil? or auth_token.nil?
+      return render json: {message: 'Already logged out'}
+    end
+
+    UserAuth.find_by(id: auth_id, token: auth_token).destroy
+    render json: {message: 'Successfully logged out'}
   end
 
   def user_session

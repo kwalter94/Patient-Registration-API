@@ -6,7 +6,13 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
   
-  def login_as(user, password)
-    controller.session[:user] = user.id
+  def login_as(username, password)
+    status = post '/login', params: {
+      username: username,
+      password: password
+    }, as: :json
+    
+    raise RuntimeError 'Login failed' unless status == 200
+    @api_key = JSON.parse(response.body)['api-key']
   end
 end

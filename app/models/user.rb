@@ -11,6 +11,7 @@ class User < ApplicationRecord
     }
   }
 
+  has_many :user_auths
   belongs_to :person
   belongs_to :role
   validates_presence_of :username, :password, :role
@@ -49,7 +50,11 @@ class User < ApplicationRecord
   #
   # Returns true on success else false
   def validate_password?(plain_password)
-    encrypt(plain_password, salt) == self.password
+    unless salt.nil?
+      encrypt(plain_password, salt) == self.password
+    else
+      false
+    end
   end
 
   private
