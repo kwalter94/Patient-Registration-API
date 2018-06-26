@@ -1,21 +1,23 @@
 class ApplicationController < ActionController::API
-  USER_AUTH_TOKEN_VALIDITY = 10     # Time in minutes an authentication token is valid
+  USER_AUTH_TOKEN_VALIDITY = 200     # Time in minutes an authentication token is valid
 
   before_action :authenticate
 
   def authenticate
-    auth_header = request.headers['API_KEY']
+    auth_header = request.headers['x-api-key'] or request.headers['API_KEY']
     if auth_header.nil?
-      logger.debug 'API_KEY header not found'
-      render json: {'errors' => 'Login required'}, status: 403
+      logger.debug 'x-api-key header not found'
+      render json: {'errors' => ['"x-api-key" header required. Please log in to generate one.']},
+             status: 403
       return false
     end
 
     auth_id, auth_token = auth_header.split '&', 2
 
     if auth_id.nil? or auth_token.nil?
-      logger.error 'Empty API_KEY header'
-      render json: {'errors' => 'Login required'}, status: 403
+      logger.error 'Empty x-api-key header'
+      render json: {'errors' => ['"x-api-key" header required. Please log in to generate one.']},
+             status: 403
       return false
     end
 
@@ -36,7 +38,8 @@ class ApplicationController < ActionController::API
     end
 
     logger.debug "Failed to authenticate token ##{auth_id}"
-    render json: {'errors' => 'Login required'}, status: 403
+    render json: {'errors' => ['Invalid or expired "x-api-key". Please login to generate one.']},
+           status: 403
     false
   end
 
