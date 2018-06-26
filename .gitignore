@@ -20,4 +20,3 @@ erd.pdf
 Gemfile
 Gemfile.lock
 config/database.yml
-db/schema.rb
