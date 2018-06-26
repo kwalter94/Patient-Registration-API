@@ -7,7 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     login_as('foobar', 'foobar')
-    get users_url, as: :json, headers: {'API_KEY': @api_key}
+    get users_url, as: :json, headers: {'x-api-key': @api_key}
     assert_response :success
   end
 
@@ -19,7 +19,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         "username" => "foobar",
         "password" => "foobar",
         "role" => roles(:clerk).rolename
-      }, as: :json, headers: {'API_KEY': @api_key}
+      }, as: :json, headers: {'x-api-key': @api_key}
     end
 
     assert_response 201
@@ -28,7 +28,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should destroy user" do
     assert_difference('User.count', -1) do
       login_as('foobar', 'foobar')
-      delete user_url(@user), as: :json, headers: {'API_KEY': @api_key}
+      delete user_url(@user), as: :json, headers: {'x-api-key': @api_key}
     end
 
     assert_response 204

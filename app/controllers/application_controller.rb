@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   before_action :authenticate
 
   def authenticate
-    auth_header = request.headers['x-api-key'] or request.headers['API_KEY']
+    auth_header = request.headers['x-api-key']
     if auth_header.nil?
       logger.debug 'x-api-key header not found'
       render json: {'errors' => ['"x-api-key" header required. Please log in to generate one.']},
