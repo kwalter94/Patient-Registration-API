@@ -94,4 +94,6 @@ class PatientsController < ApplicationController
       raise ArgumentError.new "Person ##{person_id} not found" if person.nil?
       person
     end
+
+    
 end

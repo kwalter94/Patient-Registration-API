@@ -12,4 +12,8 @@ class Patient < ApplicationRecord
         person.destroy ignore = :patient
         super() # destroy self
     end
+
+    def as_json(options = {})
+    super(options.merge(SERIALIZE_OPTIONS))
+  end
 end
