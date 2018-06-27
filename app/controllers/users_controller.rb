@@ -19,11 +19,11 @@ class UsersController < ApplicationController
       return render json: {'error' => 'Invalid username or password'}, status: 403
     end
 
-    logger.debug "Generating auth token for user ##{user.id}"
+    logger.debug "Generating auth token for user ##{user.id} - #{username}"
     auth = UserAuth.create user: user, token: SecureRandom::hex(USER_AUTH_TOKEN_LENGTH)
 
-    logger.debug "Successfully authenticated ##{user.id}"
-    render json: {'message': 'Login successful', 'api-key': "#{auth.id}&#{auth.token}"}
+    logger.debug "Successfully authenticated user ##{user.id} - #{username}"
+    render json: {'message': 'Login successful', 'api-key': "#{auth.id}&#{auth.token}", 'user': user}
   end
 
   def logout
