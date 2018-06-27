@@ -42,15 +42,6 @@ class UsersController < ApplicationController
     render json: {message: 'Successfully logged out'}
   end
 
-  def user_session
-
-    username = params[:username]
-    password = params[:password]
-   user = User.authenticate(username, password)
-
-
- end
-
   def index
     render json: User.all
   end
