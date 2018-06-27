@@ -26,6 +26,10 @@ class UsersController < ApplicationController
     render json: {'message': 'Login successful', 'api-key': "#{auth.id}&#{auth.token}", 'user': user}
   end
 
+  def check_login
+    render json: @logged_in_user
+  end
+
   def logout
     auth_header = request.headers['API_KEY']
 
