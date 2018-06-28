@@ -149,7 +149,6 @@ class UsersController < ApplicationController
     def get_posted_params(required = [])
       required = required.dup
       
-      puts request.body.read
       processed_params = JSON.parse(request.body.read).inject({}) do |hash, items|
         key, value = items
 
