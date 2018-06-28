@@ -11,6 +11,15 @@ class PersonControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should search person by name" do
+    login_as('foobar', 'foobar')
+    post people_search_url, params: {
+      "firstname" => @person.person_name.firstname,
+      "lastname" => @person.person_name.lastname
+    }, as: :json, headers: {'x-api-key' => @api_key}
+    assert JSON.parse(response.body).length == 1
+  end
+
   test "should create person" do
     assert_difference('Person.count') do
       post people_url, params: {

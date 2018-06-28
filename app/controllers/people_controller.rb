@@ -5,6 +5,14 @@ class PeopleController < ApplicationController
     render json: Person.all
   end
 
+  def search
+    posted_params = get_posted_params(required = ['firstname', 'lastname'])
+    render json: Person.joins(:person_name).where(
+      "person_names.firstname LIKE ? AND person_names.lastname LIKE ?",
+      "%#{posted_params['firstname']}%", "%#{posted_params['lastname']}%"
+    )
+  end
+
   def show
     person = Person.find(params[:id])
     person.nil? ? render(json: {'errors': ['Not found']}, status: 404)
@@ -88,5 +96,34 @@ class PeopleController < ApplicationController
           throw ArgumentError.new("#{field} can't be blank")
         end
       end
+    end
+
+    # TODO: Refactor this method... It's duplicated in users_controller.
+    # Having this here was a quick hack to get things done temporarily.
+    def get_posted_params(required = [])
+      required = required.dup
+      
+      processed_params = JSON.parse(request.body.read).inject({}) do |hash, items|
+        key, value = items
+
+        required.delete key if required.include? key or StringUtils::is_empty_string? value
+
+        case key
+        when 'person_id' then
+          hash['person'] = get_person_by_id value
+        when 'role' then
+          hash['role'] = get_role_by_name value
+        else
+          hash[key] = value
+        end
+
+        hash
+      end
+
+      if required.size > 0
+        raise ArgumentError.new "Following are required: #{required}"
+      end
+
+      processed_params
     end
 end
