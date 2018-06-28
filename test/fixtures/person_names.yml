@@ -6,13 +6,13 @@
 #
 barfoo:
   id: 0
-  person: barfoo
+  person_id: 0
   firstname: Foobar
   lastname: Foo2
 
 foobar:
   id: 1
-  person: foobar
+  person_id: 1
   firstname: Foobar
   lastname: Fooson
 
