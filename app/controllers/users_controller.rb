@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
     if user.nil?
       logger.debug "Login failed for #{username}"
-      return render json: {'error' => 'Invalid username or password'}, status: 403
+      return render json: {'errors' => ['Invalid username or password']}, status: 403
     end
 
     logger.debug "Generating auth token for user ##{user.id} - #{username}"
@@ -149,6 +149,7 @@ class UsersController < ApplicationController
     def get_posted_params(required = [])
       required = required.dup
       
+      puts request.body.read
       processed_params = JSON.parse(request.body.read).inject({}) do |hash, items|
         key, value = items
 
