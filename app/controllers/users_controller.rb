@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
     if user.nil?
       logger.debug "Login failed for #{username}"
-      return render json: {'errors' => ['Invalid username or password']}, status: 403
+      return render json: {'errors' => ['Invalid username or password']}, status: 400
     end
 
     logger.debug "Generating auth token for user ##{user.id} - #{username}"
