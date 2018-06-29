@@ -92,10 +92,8 @@ class PatientsController < ApplicationController
       data =  JSON.parse request.body.read
 
       person_id = data['person_id']
-      if person_id.nil? or !person_id.match? /^\d+$/
+      if person_id.nil?
         raise ArgumentError.new 'person_id can not be blank'
-      elsif !person_id.match? /^\d+$/
-        raise ArgumentError.new "person_id ##{person_id} is invalid"
       end
 
       person = Person.find person_id.to_i
