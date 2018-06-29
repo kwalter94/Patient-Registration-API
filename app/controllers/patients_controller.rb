@@ -12,6 +12,14 @@ class PatientsController < ApplicationController
     end
   end
 
+  def search
+    posted_params = get_posted_params(required = ['firstname', 'lastname'])
+    render json: Patient.joins(:person => [:person_name]).where(
+      "person_names.firstname LIKE ? AND person_names.lastname LIKE ?",
+      "%#{posted_params['firstname']}%", "%#{posted_params['lastname']}%"
+    )
+  end
+
   def create
     patient = process_create_params
     if patient.save
@@ -95,5 +103,31 @@ class PatientsController < ApplicationController
       person
     end
 
+    def get_posted_params(required = [])
+      required = required.dup
+      
+      processed_params = JSON.parse(request.body.read).inject({}) do |hash, items|
+        key, value = items
+
+        required.delete key if required.include? key or StringUtils::is_empty_string? value
+
+        case key
+        when 'person_id' then
+          hash['person'] = get_person_by_id value
+        when 'role' then
+          hash['role'] = get_role_by_name value
+        else
+          hash[key] = value
+        end
+
+        hash
+      end
+
+      if required.size > 0
+        raise ArgumentError.new "Following are required: #{required}"
+      end
+
+      processed_params
+    end
     
 end

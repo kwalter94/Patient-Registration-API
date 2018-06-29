@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :people
   post '/people/search', to: 'people#search'
 
+  resources :people
+  post '/patients/search', to: 'patients#search'
+
   resources :users
   resources :patients
   resources :roles

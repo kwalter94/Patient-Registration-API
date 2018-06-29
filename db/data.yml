@@ -1,0 +1,291 @@
+
+---
+ar_internal_metadata:
+  columns:
+  - key
+  - value
+  - created_at
+  - updated_at
+  records: 
+  - - environment
+    - test
+    - 2018-06-29 08:09:27.000000000 Z
+    - 2018-06-29 08:09:27.000000000 Z
+
+---
+patients:
+  columns:
+  - id
+  - person_id
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - 1
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - 0
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 2
+    - 2
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+people:
+  columns:
+  - id
+  - birthdate
+  - gender
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - 2000-01-01
+    - male
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - 2000-01-01
+    - male
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 2
+    - 1990-01-01
+    - female
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 3
+    - 1990-01-01
+    - male
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 4
+    - 
+    - female
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+person_names:
+  columns:
+  - id
+  - firstname
+  - lastname
+  - person_id
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - Foobar
+    - Foo2
+    - 0
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - Foobar
+    - Fooson
+    - 1
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 2
+    - Random
+    - Hacker
+    - 2
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 3
+    - Random
+    - Geek
+    - 3
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 4
+    - lonely
+    - hacker
+    - 4
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+personal_attribute_types:
+  columns:
+  - id
+  - name
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - address
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - email
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+personal_attributes:
+  columns:
+  - id
+  - value
+  - person_id
+  - personal_attribute_type_id
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - '121321414132'
+    - 0
+    - 0
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - foobar@foobar.com
+    - 1
+    - 1
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 2
+    - lonelyhacker@cathedral.com
+    - 4
+    - 1
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+privileges:
+  columns:
+  - id
+  - name
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 974290055
+    - delete
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1025143786
+    - add
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+roles:
+  columns:
+  - id
+  - rolename
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 0
+    - clerk
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 1
+    - manager
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+user_auths:
+  columns:
+  - id
+  - user_id
+  - token
+  - deleted_at
+  - created_at
+  - updated_at
+  records: 
+  - - 298486374
+    - 
+    - 
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+  - - 980190962
+    - 
+    - 
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+
+---
+users:
+  columns:
+  - id
+  - username
+  - password
+  - active
+  - person_id
+  - deleted_at
+  - created_at
+  - updated_at
+  - salt
+  - uuid
+  - role_id
+  records: 
+  - - 0
+    - foobar
+    - 6ae18bc2dc187e21a57ab212e3742694c346207d
+    - true
+    - 0
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+    - qM2P//BLNi77Z5VSQZ0BndWfS7QeZuXYcscgNVUJ5/bN3vVQOmlk24nGd858Pu0g85SGOTVoOY1Y05WmNchQabLJemF5jjSz6zaOxk4OgCtlDlPlzVBk9PENM30/1utYtOByGOF5xdE6q8WfSyMZMsIWv7+Yzjo95Bmhexk7f3E=
+    - 
+    - 1
+  - - 1
+    - barfoo
+    - foobar
+    - true
+    - 1
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+    - 
+    - 
+    - 0
+  - - 2
+    - jrhacker
+    - jrhacker
+    - true
+    - 3
+    - 
+    - 2018-06-29 08:09:34.000000000 Z
+    - 2018-06-29 08:09:34.000000000 Z
+    - 
+    - 
+    - 0
