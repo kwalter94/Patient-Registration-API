@@ -41,7 +41,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should not login with wrong user password combo" do
     post '/login', params: {username: 'yoda', password: 'login I should'}, as: :json
-    assert_response 403
+    assert_response 400
   end
 
   test "should login" do
