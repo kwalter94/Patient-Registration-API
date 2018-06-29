@@ -40,4 +40,13 @@ class PatientsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response 204
   end
+
+  test "should search patient by name" do
+    login_as('foobar', 'foobar')
+    post patients_search_url, params: {
+      "firstname" => @patient.person.person_name.firstname,
+      "lastname" => @patient.person.person_name.lastname
+    }, as: :json, headers: {'x-api-key' => @api_key}
+    assert JSON.parse(response.body).length == 1
+  end
 end
