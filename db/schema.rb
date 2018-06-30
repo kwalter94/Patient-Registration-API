@@ -12,14 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2018_06_25_063430) do
 
-  create_table "patients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "patients", force: :cascade do |t|
     t.integer "person_id"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "people", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.date "birthdate"
     t.string "gender"
     t.datetime "deleted_at"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "person_names", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "person_names", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
     t.integer "person_id"
@@ -36,14 +36,14 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "personal_attribute_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "personal_attribute_types", force: :cascade do |t|
     t.string "name"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "personal_attributes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "personal_attributes", force: :cascade do |t|
     t.string "value"
     t.integer "person_id"
     t.integer "personal_attribute_type_id"
@@ -52,16 +52,16 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "privileges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "privileges", force: :cascade do |t|
     t.string "name"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "privileges_roles", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "role_id", null: false
-    t.bigint "privilege_id", null: false
+  create_table "privileges_roles", id: false, force: :cascade do |t|
+    t.integer "role_id", null: false
+    t.integer "privilege_id", null: false
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,14 +69,14 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.index ["role_id"], name: "index_privileges_roles_on_role_id"
   end
 
-  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "roles", force: :cascade do |t|
     t.string "rolename"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "roles_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "roles_users", force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
     t.datetime "deleted_at"
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_auths", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "user_auths", force: :cascade do |t|
     t.integer "user_id"
     t.string "token"
     t.datetime "deleted_at"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2018_06_25_063430) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password"
     t.boolean "active", default: false
