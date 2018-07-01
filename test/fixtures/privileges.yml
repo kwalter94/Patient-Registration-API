@@ -1,7 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 add:
+  id: 0
   name: add
 
 delete:
+  id: 1
   name: delete
+
+view_user:
+  id: 2
+  name: view_user
+
+edit_user:
+  id: 3
+  name: edit_user

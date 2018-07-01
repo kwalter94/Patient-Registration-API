@@ -33,3 +33,9 @@ unattached_person:
   person_id: 4
   firstname: lonely
   lastname: hacker
+
+admin:
+  id: 5
+  person_id: 5
+  firstname: Fading
+  lastname: Eyes

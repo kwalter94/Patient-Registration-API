@@ -27,3 +27,7 @@ no_patient_person:
 unattached_person:
   id: 4
   gender: female
+
+admin:
+  id: 5
+  gender: neutral

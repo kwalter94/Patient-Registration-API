@@ -2,18 +2,17 @@ require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:foobar)
+    @user = users(:admin)
+    login_as('admin', 'foobar')
   end
 
   test "should get index" do
-    login_as('foobar', 'foobar')
     get users_url, as: :json, headers: {'x-api-key': @api_key}
     assert_response :success
   end
 
   test "should create user" do
     assert_difference('User.count') do
-      login_as('foobar', 'foobar')
       post users_url, params: {
         "person_id" => people(:no_user_person).id.to_s,
         "username" => "foobar",
@@ -27,7 +26,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy user" do
     assert_difference('User.count', -1) do
-      login_as('foobar', 'foobar')
       delete user_url(@user), as: :json, headers: {'x-api-key': @api_key}
     end
 

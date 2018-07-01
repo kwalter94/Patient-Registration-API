@@ -6,6 +6,9 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, :only => :login
 
+  bind_privilege :view_user, [:index, :show]
+  bind_privilege :edit_user, [:create, :update, :destroy]
+
   def login
     posted_params = get_posted_params(required = ['username', 'password'])
     username = posted_params['username']

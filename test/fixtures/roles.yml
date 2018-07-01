@@ -11,3 +11,7 @@ clerk:
 manager:
   id: 1
   rolename: manager
+
+admin:
+  id: 2
+  rolename: admin

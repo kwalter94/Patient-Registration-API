@@ -1,0 +1,11 @@
+admin_view:
+  role_id: 2
+  privilege_id: 2
+  created_at: 2018-06-30 22:08:13
+  updated_at: 2018-06-30 22:08:13
+
+admin_edit:
+  role_id: 2
+  created_at: 2018-06-30 22:08:13
+  updated_at: 2018-06-30 22:08:13
+  privilege_id: 3
