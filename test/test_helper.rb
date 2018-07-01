@@ -12,7 +12,7 @@ class ActiveSupport::TestCase
       password: password
     }, as: :json
     
-    raise RuntimeError 'Login failed' unless status == 200
+    raise RuntimeError.new 'Login failed' unless status == 200
     @api_key = JSON.parse(response.body)['api-key']
   end
 end
